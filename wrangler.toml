@@ -1,0 +1,26 @@
+name = "wordle-scheduler"
+type = "javascript"
+workers_dev = true
+compatibility_date = "2022-01-29"
+
+kv_namespaces = [
+  { binding = "wordle", id = "1bffba37ce134dd4b319c449aa16bd1f", preview_id = "1bffba37ce134dd4b319c449aa16bd1f" }
+]
+
+[vars]
+WORKERS_RS_VERSION = "0.0.8"
+
+[build]
+command = "cargo install -q worker-build && worker-build --release" # required
+
+[build.upload]
+dir = "build/worker"
+format = "modules"
+main = "./shim.mjs"
+
+[[build.upload.rules]]
+globs = ["**/*.wasm"]
+type = "CompiledWasm"
+
+# read more about configuring your Worker via wrangler.toml at:
+# https://developers.cloudflare.com/workers/cli-wrangler/configuration
